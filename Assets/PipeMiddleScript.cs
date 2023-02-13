@@ -5,6 +5,7 @@ using UnityEngine;
 public class PipeMiddleScript : MonoBehaviour
 {
     public LogicScript logicScript;
+    [SerializeField] private AudioSource pipePassSound;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +22,7 @@ public class PipeMiddleScript : MonoBehaviour
     {
         if(collision.gameObject.layer == 3)
         {
+            pipePassSound.Play();
             logicScript.addScore(1);
         }
         

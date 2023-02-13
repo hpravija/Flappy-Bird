@@ -9,6 +9,8 @@ public class BirdScript : MonoBehaviour
     public LogicScript logicScript;
     private bool birdIsAlive = true;
     public float heightOffset = 12.5f;
+    [SerializeField] private AudioSource flapSound;
+    [SerializeField] private AudioSource pipeHitSound;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +23,7 @@ public class BirdScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && birdIsAlive)
         {
+            flapSound.Play();
             rigidbody2D.velocity = Vector2.up * flapStrenght;
         }
 
@@ -28,14 +31,19 @@ public class BirdScript : MonoBehaviour
 
         if (currentHeight < (-heightOffset) || currentHeight > heightOffset)
         {
-            logicScript.gameOver();
-            birdIsAlive = false;
+            pipeHit();
         }
+    }
+
+    void pipeHit()
+    {
+        logicScript.gameOver();
+        birdIsAlive = false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        logicScript.gameOver();
-        birdIsAlive = false;
+        pipeHitSound.Play();
+        pipeHit();
     }
 }
